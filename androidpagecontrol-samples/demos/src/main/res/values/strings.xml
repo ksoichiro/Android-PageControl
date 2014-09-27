@@ -20,6 +20,10 @@
     <string name="activity_title_default">Default style</string>
     <string name="activity_title_custom">Custom style</string>
     <string name="activity_title_about">About this app</string>
+
+    <string name="label_enable_click">Enable click</string>
+    <string name="label_disable_click">Disable click</string>
+
     <string name="menu_about">@string/activity_title_about</string>
 
     <string name="msg_version">Version</string>

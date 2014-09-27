@@ -16,30 +16,5 @@
 
 package com.androidpagecontrol.samples.demos;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.androidpagecontrol.PageControl;
-
-public class CustomActivity extends Activity {
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_default);
-
-        SamplePagerAdapter adapter = new SamplePagerAdapter(this);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(adapter);
-        PageControl pageControl = (PageControl) findViewById(R.id.page_control);
-        pageControl.setViewPager(viewPager);
-        pageControl.setPosition(1);
-    }
-
+public class CustomActivity extends DefaultActivity {
 }

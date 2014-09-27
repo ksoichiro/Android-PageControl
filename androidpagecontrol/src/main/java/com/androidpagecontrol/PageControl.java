@@ -49,6 +49,7 @@ public class PageControl extends LinearLayout implements View.OnClickListener {
     private int mColorCurrentPressed;
     private int mColorNormalDefault;
     private int mColorNormalPressed;
+    private boolean mIndicatorsClickable;
 
     public PageControl(Context context) {
         super(context);
@@ -104,6 +105,16 @@ public class PageControl extends LinearLayout implements View.OnClickListener {
         });
     }
 
+    public void setIndicatorsClickable(boolean indicatorsClickable) {
+        mIndicatorsClickable = indicatorsClickable;
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            if (child != null) {
+                child.setClickable(indicatorsClickable);
+            }
+        }
+    }
+
     private void updateNumOfViews() {
         if (mViewPager.getAdapter() == null) {
             mNumOfViews = 0;
@@ -126,6 +137,8 @@ public class PageControl extends LinearLayout implements View.OnClickListener {
             b.setOnClickListener(this);
             addView(b, lp);
         }
+        // Set current clickable state to new children
+        setIndicatorsClickable(mIndicatorsClickable);
         requestLayout();
     }
 
@@ -153,6 +166,7 @@ public class PageControl extends LinearLayout implements View.OnClickListener {
             setOrientation(LinearLayout.HORIZONTAL);
         }
         setGravity(Gravity.CENTER);
+        mIndicatorsClickable = true;
 
         TypedArray a = context.getTheme().obtainStyledAttributes(null,
                 R.styleable.AndroidPageControl,

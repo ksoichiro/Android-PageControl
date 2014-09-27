@@ -19,6 +19,8 @@ package com.androidpagecontrol.samples.demos;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.Button;
 
 import com.androidpagecontrol.PageControl;
 
@@ -32,9 +34,23 @@ public class DefaultActivity extends Activity {
         SamplePagerAdapter adapter = new SamplePagerAdapter(this);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(adapter);
-        PageControl pageControl = (PageControl) findViewById(R.id.page_control);
+        final PageControl pageControl = (PageControl) findViewById(R.id.page_control);
         pageControl.setViewPager(viewPager);
         pageControl.setPosition(1);
+
+        findViewById(R.id.button_toggle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button b = (Button) view;
+                if (b.getText().equals(getString(R.string.label_enable_click))) {
+                    b.setText(R.string.label_disable_click);
+                    pageControl.setIndicatorsClickable(true);
+                } else {
+                    b.setText(R.string.label_enable_click);
+                    pageControl.setIndicatorsClickable(false);
+                }
+            }
+        });
     }
 
 }
