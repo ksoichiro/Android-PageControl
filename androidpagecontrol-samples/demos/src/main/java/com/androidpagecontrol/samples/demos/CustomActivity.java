@@ -27,58 +27,19 @@ import android.widget.TextView;
 
 import com.androidpagecontrol.PageControl;
 
-public class SampleActivity extends Activity {
+public class CustomActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sample);
+        setContentView(R.layout.activity_default);
 
-        MyPagerAdapter adapter = new MyPagerAdapter(this);
+        SamplePagerAdapter adapter = new SamplePagerAdapter(this);
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(adapter);
-        PageControl pageControl = (PageControl) findViewById(R.id.pagecontrol);
+        PageControl pageControl = (PageControl) findViewById(R.id.page_control);
         pageControl.setViewPager(viewPager);
         pageControl.setPosition(1);
-    }
-
-    private class MyPagerAdapter extends PagerAdapter {
-
-        /**
-         * Number of views(pages).
-         */
-        private static final int NUM_OF_VIEWS = 5;
-
-        private Context mContext;
-
-        public MyPagerAdapter(Context context) {
-            mContext = context;
-        }
-
-        @Override
-        public int getCount() {
-            return NUM_OF_VIEWS;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            TextView view = new TextView(mContext);
-            view.setText("This is the " + (position + 1) + "th view.");
-
-            container.addView(view);
-            return view;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((TextView) object);
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
     }
 
 }

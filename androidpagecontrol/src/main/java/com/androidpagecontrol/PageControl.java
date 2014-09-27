@@ -16,29 +16,29 @@
 
 package com.androidpagecontrol;
 
-import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
+import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 /**
  * View which has circle-formed page indicator.
  *
  * @author Soichiro Kashima
  */
-public class PageControl extends View {
+public class PageControl extends LinearLayout implements View.OnClickListener {
 
-    private static final float DEFAULT_RADIUS = 5.0f;
-    private static final float DEFAULT_DISTANCE = 30.0f;
+    private static final float DEFAULT_RADIUS = 2.0f;
+    private static final float DEFAULT_DISTANCE = 4.0f;
 
     private int mNumOfViews;
-    private int mPosition;
     private ViewPager mViewPager;
     private float mRadius;
     private float mDistance;
@@ -53,6 +53,7 @@ public class PageControl extends View {
      * @param attrs
      * @param defStyle
      */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public PageControl(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
@@ -68,10 +69,9 @@ public class PageControl extends View {
     }
 
     public void setPosition(final int position) {
-        if (position < mNumOfViews) {
-            mPosition = position;
+        if (0 <= position && position < mNumOfViews) {
             if (mViewPager != null) {
-                mViewPager.setCurrentItem(mPosition);
+                mViewPager.setCurrentItem(position);
             }
             invalidate();
         }
@@ -86,7 +86,7 @@ public class PageControl extends View {
             }
 
             @Override
-            public void onPageScrolled(int position, float positionOffest, int positionOffestPixels) {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
 
             @Override
@@ -97,52 +97,75 @@ public class PageControl extends View {
         });
     }
 
-    @SuppressLint("DrawAllocation")
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-        Paint paint = new Paint();
-        paint.setStrokeWidth(1);
-        paint.setStrokeCap(Paint.Cap.ROUND);
-        paint.setColor(Color.BLACK);
-        paint.setAntiAlias(true);
-
-        for (int i = 0; i < mNumOfViews; i++) {
-            float cx = (getWidth() - (mNumOfViews - 1) * mDistance) / 2 + i * mDistance;
-            float cy = getHeight() / 2.0f;
-            if (mPosition == i) {
-                paint.setStyle(Paint.Style.FILL_AND_STROKE);
-            } else {
-                paint.setStyle(Paint.Style.STROKE);
-            }
-            canvas.drawCircle(cx, cy, mRadius, paint);
-        }
-    }
-
     private void updateNumOfViews() {
         if (mViewPager.getAdapter() == null) {
             mNumOfViews = 0;
         } else {
             mNumOfViews = mViewPager.getAdapter().getCount();
         }
+        removeAllViews();
+        for (int i = 0; i < mNumOfViews; i++) {
+            Button b = new Button(getContext());
+            if (i == mViewPager.getCurrentItem()) {
+                b.setBackgroundResource(R.drawable.apc_indicator_current);
+            } else {
+                b.setBackgroundResource(R.drawable.apc_indicator_normal);
+            }
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (mRadius * 2), (int) (mRadius * 2));
+            if (getOrientation() == LinearLayout.HORIZONTAL) {
+                lp.leftMargin = (int) (mDistance / 2);
+                lp.rightMargin = (int) (mDistance / 2);
+            } else {
+                lp.topMargin = (int) (mDistance / 2);
+                lp.bottomMargin = (int) (mDistance / 2);
+            }
+            b.setTag(i);
+            b.setOnClickListener(this);
+            addView(b, lp);
+        }
+        requestLayout();
     }
 
     private void init(Context context) {
+        // Horizontal layout by default
+        if (getOrientation() != LinearLayout.VERTICAL) {
+            setOrientation(LinearLayout.HORIZONTAL);
+        }
+        setGravity(Gravity.CENTER);
+
         TypedArray a = context.getTheme().obtainStyledAttributes(null,
                 R.styleable.AndroidPageControl,
                 R.attr.apcStyles, 0);
-        float radiusDp = a.getDimension(R.styleable.AndroidPageControl_apc_radius, DEFAULT_RADIUS);
-        mRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radiusDp, getResources().getDisplayMetrics());
-        if (mRadius <= 0) {
-            mRadius = DEFAULT_RADIUS;
+        float radiusDefault = DEFAULT_RADIUS * getResources().getDisplayMetrics().density;
+        float radius = a.getDimension(R.styleable.AndroidPageControl_apc_radius, radiusDefault);
+        if (radius <= 0) {
+            radius = radiusDefault;
         }
-        float distanceDp = a.getDimension(R.styleable.AndroidPageControl_apc_distance, DEFAULT_DISTANCE);
-        mDistance = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, distanceDp, getResources().getDisplayMetrics());
-        if (mDistance <= 0) {
-            mDistance = DEFAULT_DISTANCE;
+        mRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radius, getResources().getDisplayMetrics());
+
+        float distanceDefault = DEFAULT_DISTANCE * getResources().getDisplayMetrics().density;
+        float distance = a.getDimension(R.styleable.AndroidPageControl_apc_distance, distanceDefault);
+        if (distance <= 0) {
+            distance = distanceDefault;
         }
+        mDistance = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, distance, getResources().getDisplayMetrics());
         a.recycle();
     }
 
+    @Override
+    public void onClick(final View view) {
+        if (view == null) {
+            return;
+        }
+        if (!(view instanceof Button)) {
+            return;
+        }
+        Button b = (Button) view;
+        try {
+            int position = (Integer) b.getTag();
+            setPosition(position);
+        } catch (ClassCastException ignore) {
+            // For casting tag object to Integer
+        }
+    }
 }

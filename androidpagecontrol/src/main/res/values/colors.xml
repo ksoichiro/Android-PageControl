@@ -16,10 +16,9 @@
 
 <resources>
 
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="margin_element">8dp</dimen>
-    <dimen name="custom_apc_radius">4dp</dimen>
-    <dimen name="custom_apc_distance">8dp</dimen>
+    <color name="apc_indicator_current_default">#1de9b6</color>
+    <color name="apc_indicator_current_pressed">#a7ffeb</color>
+    <color name="apc_indicator_normal_default">#009688</color>
+    <color name="apc_indicator_normal_pressed">#4db6ac</color>
 
 </resources>

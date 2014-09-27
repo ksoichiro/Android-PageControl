@@ -30,8 +30,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SampleActivity"
-            android:label="@string/activity_sample" >
+            android:name=".DefaultActivity"
+            android:label="@string/activity_title_default">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.androidpagecontrol.samples.demos" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CustomActivity"
+            android:label="@string/activity_title_custom"
+            android:theme="@style/AppTheme.Custom">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
