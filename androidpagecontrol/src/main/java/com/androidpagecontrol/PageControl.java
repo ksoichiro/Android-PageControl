@@ -19,6 +19,9 @@ package com.androidpagecontrol;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -42,6 +45,10 @@ public class PageControl extends LinearLayout implements View.OnClickListener {
     private ViewPager mViewPager;
     private float mRadius;
     private float mDistance;
+    private int mColorCurrentDefault;
+    private int mColorCurrentPressed;
+    private int mColorNormalDefault;
+    private int mColorNormalPressed;
 
     public PageControl(Context context) {
         super(context);
@@ -106,11 +113,7 @@ public class PageControl extends LinearLayout implements View.OnClickListener {
         removeAllViews();
         for (int i = 0; i < mNumOfViews; i++) {
             Button b = new Button(getContext());
-            if (i == mViewPager.getCurrentItem()) {
-                b.setBackgroundResource(R.drawable.apc_indicator_current);
-            } else {
-                b.setBackgroundResource(R.drawable.apc_indicator_normal);
-            }
+            setIndicatorBackground(b, i == mViewPager.getCurrentItem());
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (mRadius * 2), (int) (mRadius * 2));
             if (getOrientation() == LinearLayout.HORIZONTAL) {
                 lp.leftMargin = (int) (mDistance / 2);
@@ -124,6 +127,24 @@ public class PageControl extends LinearLayout implements View.OnClickListener {
             addView(b, lp);
         }
         requestLayout();
+    }
+
+    private void setIndicatorBackground(Button b, boolean isCurrent) {
+        ShapeDrawable drawableDefault = new ShapeDrawable();
+        drawableDefault.setShape(new OvalShape());
+        drawableDefault.getPaint().setColor(isCurrent ? mColorCurrentDefault : mColorNormalDefault);
+        ShapeDrawable drawablePressed = new ShapeDrawable();
+        drawablePressed.setShape(new OvalShape());
+        drawablePressed.getPaint().setColor(isCurrent ? mColorCurrentPressed : mColorNormalPressed);
+
+        StateListDrawable sld = new StateListDrawable();
+        sld.addState(new int[]{android.R.attr.state_pressed}, drawablePressed);
+        sld.addState(new int[]{-android.R.attr.state_pressed}, drawableDefault);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            b.setBackgroundDrawable(sld);
+        } else {
+            b.setBackground(sld);
+        }
     }
 
     private void init(Context context) {
@@ -149,6 +170,12 @@ public class PageControl extends LinearLayout implements View.OnClickListener {
             distance = distanceDefault;
         }
         mDistance = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, distance, getResources().getDisplayMetrics());
+
+        mColorCurrentDefault = a.getColor(R.styleable.AndroidPageControl_apc_colorCurrentDefault, getResources().getColor(R.color.apc_indicator_current_default));
+        mColorCurrentPressed = a.getColor(R.styleable.AndroidPageControl_apc_colorCurrentPressed, getResources().getColor(R.color.apc_indicator_current_pressed));
+        mColorNormalDefault = a.getColor(R.styleable.AndroidPageControl_apc_colorNormalDefault, getResources().getColor(R.color.apc_indicator_normal_default));
+        mColorNormalPressed = a.getColor(R.styleable.AndroidPageControl_apc_colorNormalPressed, getResources().getColor(R.color.apc_indicator_normal_pressed));
+
         a.recycle();
     }
 

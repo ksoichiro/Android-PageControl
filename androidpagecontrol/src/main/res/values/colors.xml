@@ -16,9 +16,9 @@
 
 <resources>
 
-    <color name="apc_indicator_current_default">#1de9b6</color>
-    <color name="apc_indicator_current_pressed">#a7ffeb</color>
-    <color name="apc_indicator_normal_default">#009688</color>
-    <color name="apc_indicator_normal_pressed">#4db6ac</color>
+    <color name="apc_indicator_current_default">#757575</color>
+    <color name="apc_indicator_current_pressed">#9e9e9e</color>
+    <color name="apc_indicator_normal_default">#bdbdbd</color>
+    <color name="apc_indicator_normal_pressed">#eeeeee</color>
 
 </resources>

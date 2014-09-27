@@ -40,6 +40,10 @@
     <style name="AppPageControlStyle">
         <item name="apc_radius">@dimen/custom_apc_radius</item>
         <item name="apc_distance">@dimen/custom_apc_distance</item>
+        <item name="apc_colorCurrentDefault">#1de9b6</item>
+        <item name="apc_colorCurrentPressed">#a7ffeb</item>
+        <item name="apc_colorNormalDefault">#009688</item>
+        <item name="apc_colorNormalPressed">#4db6ac</item>
     </style>
 
 </resources>
