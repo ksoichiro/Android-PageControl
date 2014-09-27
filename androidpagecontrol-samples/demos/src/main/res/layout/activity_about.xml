@@ -86,7 +86,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="@string/msg_about_description" />
+            android:text="@string/msg_about_lib_description" />
     </LinearLayout>
 
 </RelativeLayout>
