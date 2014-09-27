@@ -1,8 +1,8 @@
 # Android-PageControl
 
 PageControl for Android apps.  
-There are some great libraries like `ViewPagerIndicator` but they doesn't handle taps on indicator like `PageControl` on iOS.  
-This components handle it just as `PageControl` does.
+There are some great libraries like `ViewPagerIndicator` but they don't handle taps on indicator like `PageControl` on iOS.  
+This widget handles taps just as `PageControl` does.
 
 ## Developed By
 
