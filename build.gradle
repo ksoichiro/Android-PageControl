@@ -8,8 +8,6 @@ buildscript {
 }
 
 allprojects {
-    group = POM_GROUP
-    version = POM_VERSION
     repositories {
         mavenCentral()
     }

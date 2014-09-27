@@ -21,4 +21,10 @@ android {
         minSdkVersion 8
         targetSdkVersion 20
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
+
+apply from: 'https://raw.githubusercontent.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'
