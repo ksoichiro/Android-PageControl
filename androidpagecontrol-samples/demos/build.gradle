@@ -1,17 +1,21 @@
 buildscript {
+    ext.kotlin_version = '0.8.11'
     repositories {
         mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.12.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 dependencies {
     compile project(':androidpagecontrol')
     compile 'com.android.support:support-v4:20.0.0'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
 android {
@@ -23,6 +27,10 @@ android {
         versionName "1.0.0"
         minSdkVersion 8
         targetSdkVersion 20
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 
     lintOptions {
