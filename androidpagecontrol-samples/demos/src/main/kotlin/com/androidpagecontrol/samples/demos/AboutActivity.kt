@@ -1,3 +1,19 @@
+/*
+ * Copyright 2014 Soichiro Kashima
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.androidpagecontrol.samples.demos
 
 import android.app.Activity
@@ -15,7 +31,6 @@ import android.annotation.TargetApi
  */
 class AboutActivity() : Activity() {
 
-    TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     protected override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,8 +47,7 @@ class AboutActivity() : Activity() {
     }
 
     override fun onOptionsItemSelected(menu: MenuItem?): Boolean {
-        val id = menu!!.getItemId()
-        if (id == android.R.id.home) {
+        if (menu!!.getItemId() == android.R.id.home) {
             finish()
             return true
         }
@@ -41,16 +55,11 @@ class AboutActivity() : Activity() {
     }
 
     private fun getVersionName(): String? {
-        val manager = getPackageManager()
-        val versionName: String?
         try {
-            val info = manager!!.getPackageInfo(getPackageName(), PackageManager.GET_META_DATA)
-            versionName = info.versionName
+            return getPackageManager()!!.getPackageInfo(getPackageName(), PackageManager.GET_META_DATA).versionName
         } catch (e: NameNotFoundException) {
-            versionName = ""
+            return ""
         }
-
-        return versionName
     }
 
 }
