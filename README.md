@@ -72,6 +72,11 @@ pageControl.setPosition(1);
     </style>
 ```
 
+### Controlling enable/clickable
+
+`PageControl`'s `setEnable(boolean)` and `setClickable(boolean)` methods affect to its children(indicators).
+So if you want to disable taps for indicators, you don't have to access each indicator views.
+
 ## Developed By
 
 * Soichiro Kashima - <soichiro.kashima@gmail.com>
