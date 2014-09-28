@@ -37,6 +37,10 @@
         <item name="apcStyles">@style/AppPageControlStyle</item>
     </style>
 
+    <style name="AppTheme.EmphasizedCurrent" parent="AppBaseTheme">
+        <item name="apcStyles">@style/AppPageControlEmphasizedCurrentStyle</item>
+    </style>
+
     <style name="AppPageControlStyle">
         <item name="apc_indicatorSize">@dimen/custom_apc_indicator_size</item>
         <item name="apc_indicatorDistance">@dimen/custom_apc_indicator_distance</item>
@@ -44,6 +48,10 @@
         <item name="apc_colorCurrentPressed">#a7ffeb</item>
         <item name="apc_colorNormalDefault">#009688</item>
         <item name="apc_colorNormalPressed">#4db6ac</item>
+    </style>
+
+    <style name="AppPageControlEmphasizedCurrentStyle">
+        <item name="apc_currentIndicatorSize">@dimen/custom_apc_current_indicator_size</item>
     </style>
 
 </resources>

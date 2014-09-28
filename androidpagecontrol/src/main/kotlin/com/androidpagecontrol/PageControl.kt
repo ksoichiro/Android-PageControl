@@ -40,6 +40,7 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
     private var mNumOfViews: Int
     private var mViewPager: ViewPager?
     private var mIndicatorSize: Float
+    private var mCurrentIndicatorSize: Float
     private var mIndicatorDistance: Float
     private var mColorCurrentDefault: Int
     private var mColorCurrentPressed: Int
@@ -57,6 +58,7 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
         mViewPager = null
         mIndicatorSize = 0.toFloat()
         mIndicatorDistance = 0.toFloat()
+        mCurrentIndicatorSize = 0.toFloat()
         mColorCurrentDefault = 0
         mColorCurrentPressed = 0
         mColorNormalDefault = 0
@@ -86,6 +88,13 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
                     indicatorDistance = indicatorDistanceDefault
                 }
                 mIndicatorDistance = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, indicatorDistance, r.getDisplayMetrics())
+
+                val currentIndicatorSizeDefault = indicatorSize
+                var currentIndicatorSize = a.getDimension(R.styleable.AndroidPageControl_apc_currentIndicatorSize, currentIndicatorSizeDefault)
+                if (currentIndicatorSize <= 0) {
+                    currentIndicatorSize = currentIndicatorSizeDefault
+                }
+                mCurrentIndicatorSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, currentIndicatorSize, r.getDisplayMetrics())
 
                 mColorCurrentDefault = a.getColor(R.styleable.AndroidPageControl_apc_colorCurrentDefault, r.getColor(R.color.apc_indicator_current_default))
                 mColorCurrentPressed = a.getColor(R.styleable.AndroidPageControl_apc_colorCurrentPressed, r.getColor(R.color.apc_indicator_current_pressed))
@@ -134,13 +143,24 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
         for (i in 0..mNumOfViews - 1) {
             val b = Button(getContext() as Context)
             setIndicatorBackground(b, i == mViewPager?.getCurrentItem() ?: 0)
-            val lp = LinearLayout.LayoutParams(mIndicatorSize.toInt(), mIndicatorSize.toInt())
-            if (getOrientation() == LinearLayout.HORIZONTAL) {
-                lp.leftMargin = (mIndicatorDistance / 2).toInt()
-                lp.rightMargin = (mIndicatorDistance / 2).toInt()
+            var isCurrent: Boolean = (i == mViewPager?.getCurrentItem() ?: 0)
+            val lp = if (isCurrent) {
+                LinearLayout.LayoutParams(mCurrentIndicatorSize.toInt(), mCurrentIndicatorSize.toInt())
             } else {
-                lp.topMargin = (mIndicatorDistance / 2).toInt()
-                lp.bottomMargin = (mIndicatorDistance / 2).toInt()
+                LinearLayout.LayoutParams(mIndicatorSize.toInt(), mIndicatorSize.toInt())
+            }
+            var margin: Int
+            if (isCurrent) {
+                margin = ((mIndicatorDistance - (mCurrentIndicatorSize - mIndicatorSize)) / 2).toInt()
+            } else {
+                margin = (mIndicatorDistance / 2).toInt()
+            }
+            if (getOrientation() == LinearLayout.HORIZONTAL) {
+                lp.leftMargin = margin
+                lp.rightMargin = margin
+            } else {
+                lp.topMargin = margin
+                lp.bottomMargin = margin
             }
             b.setTag(i)
             b.setOnClickListener(this)

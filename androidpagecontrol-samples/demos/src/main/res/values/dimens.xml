@@ -21,5 +21,6 @@
     <dimen name="margin_element">8dp</dimen>
     <dimen name="custom_apc_indicator_size">8dp</dimen>
     <dimen name="custom_apc_indicator_distance">8dp</dimen>
+    <dimen name="custom_apc_current_indicator_size">6dp</dimen>
 
 </resources>

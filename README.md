@@ -62,8 +62,13 @@ pageControl.setPosition(1);
     </style>
 
     <style name="AppPageControlStyle">
+        <!-- To change indicator size -->
         <item name="apc_indicatorSize">8dp</item>
+        <!-- To change distance between indicators -->
         <item name="apc_indicatorDistance">8dp</item>
+        <!-- To change current item indicator size -->
+        <item name="apc_currentIndicatorSize">10dp</item>
+        <!-- To change indicator colors -->
         <item name="apc_colorCurrentDefault">#1de9b6</item>
         <item name="apc_colorCurrentPressed">#a7ffeb</item>
         <item name="apc_colorNormalDefault">#009688</item>

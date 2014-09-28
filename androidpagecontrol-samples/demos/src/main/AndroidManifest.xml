@@ -49,6 +49,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".EmphasizedCurrentActivity"
+            android:label="@string/activity_title_emphasized_current"
+            android:theme="@style/AppTheme.EmphasizedCurrent">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.androidpagecontrol.samples.demos" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".AboutActivity"
             android:label="@string/activity_title_about" />
     </application>

@@ -19,6 +19,7 @@
     <string name="app_name">APC-Demos</string>
     <string name="activity_title_default">Default style</string>
     <string name="activity_title_custom">Custom style</string>
+    <string name="activity_title_emphasized_current">Emphasize current indicator</string>
     <string name="activity_title_about">About this app</string>
 
     <string name="label_enable_click">Enable click</string>
