@@ -28,6 +28,8 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
+import android.content.res.Resources
+import android.content.res.TypedArray
 
 /**
  * View which has circle-formed page indicator.
@@ -67,33 +69,37 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
         }
         setGravity(Gravity.CENTER)
 
-        val r = getResources()!!
-        val a = context.getTheme()!!.obtainStyledAttributes(attrs, R.styleable.AndroidPageControl, R.attr.apcStyles, 0)!!
-        val radiusDefault = DEFAULT_RADIUS * r.getDisplayMetrics().density
-        var radius = a.getDimension(R.styleable.AndroidPageControl_apc_radius, radiusDefault)
-        if (radius <= 0) {
-            radius = radiusDefault
+        val r: Resources? = getResources()
+        if (r != null) {
+            val a: TypedArray? = context.getTheme()?.obtainStyledAttributes(attrs, R.styleable.AndroidPageControl, R.attr.apcStyles, 0)
+            if (a != null) {
+                val radiusDefault = DEFAULT_RADIUS * r.getDisplayMetrics().density
+                var radius = a.getDimension(R.styleable.AndroidPageControl_apc_radius, radiusDefault)
+                if (radius <= 0) {
+                    radius = radiusDefault
+                }
+                mRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radius, r.getDisplayMetrics())
+
+                val distanceDefault = DEFAULT_DISTANCE * r.getDisplayMetrics().density
+                var distance = a.getDimension(R.styleable.AndroidPageControl_apc_distance, distanceDefault)
+                if (distance <= 0) {
+                    distance = distanceDefault
+                }
+                mDistance = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, distance, r.getDisplayMetrics())
+
+                mColorCurrentDefault = a.getColor(R.styleable.AndroidPageControl_apc_colorCurrentDefault, r.getColor(R.color.apc_indicator_current_default))
+                mColorCurrentPressed = a.getColor(R.styleable.AndroidPageControl_apc_colorCurrentPressed, r.getColor(R.color.apc_indicator_current_pressed))
+                mColorNormalDefault = a.getColor(R.styleable.AndroidPageControl_apc_colorNormalDefault, r.getColor(R.color.apc_indicator_normal_default))
+                mColorNormalPressed = a.getColor(R.styleable.AndroidPageControl_apc_colorNormalPressed, r.getColor(R.color.apc_indicator_normal_pressed))
+
+                a.recycle()
+            }
         }
-        mRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radius, r.getDisplayMetrics())
-
-        val distanceDefault = DEFAULT_DISTANCE * r.getDisplayMetrics().density
-        var distance = a.getDimension(R.styleable.AndroidPageControl_apc_distance, distanceDefault)
-        if (distance <= 0) {
-            distance = distanceDefault
-        }
-        mDistance = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, distance, r.getDisplayMetrics())
-
-        mColorCurrentDefault = a.getColor(R.styleable.AndroidPageControl_apc_colorCurrentDefault, r.getColor(R.color.apc_indicator_current_default))
-        mColorCurrentPressed = a.getColor(R.styleable.AndroidPageControl_apc_colorCurrentPressed, r.getColor(R.color.apc_indicator_current_pressed))
-        mColorNormalDefault = a.getColor(R.styleable.AndroidPageControl_apc_colorNormalDefault, r.getColor(R.color.apc_indicator_normal_default))
-        mColorNormalPressed = a.getColor(R.styleable.AndroidPageControl_apc_colorNormalPressed, r.getColor(R.color.apc_indicator_normal_pressed))
-
-        a.recycle()
     }
 
     public fun setPosition(position: Int) {
         if (0 <= position && position < mNumOfViews) {
-            mViewPager!!.setCurrentItem(position)
+            mViewPager?.setCurrentItem(position)
             invalidate()
         }
     }
@@ -101,7 +107,7 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
     public fun setViewPager(viewPager: ViewPager) {
         mViewPager = viewPager
         updateNumOfViews()
-        mViewPager!!.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        mViewPager?.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
 
@@ -118,20 +124,16 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
     public fun setIndicatorsClickable(indicatorsClickable: Boolean) {
         mIndicatorsClickable = indicatorsClickable
         for (i in 0..getChildCount() - 1) {
-            getChildAt(i)!!.setClickable(indicatorsClickable)
+            getChildAt(i)?.setClickable(indicatorsClickable)
         }
     }
 
     private fun updateNumOfViews() {
-        if (mViewPager!!.getAdapter() == null) {
-            mNumOfViews = 0
-        } else {
-            mNumOfViews = mViewPager!!.getAdapter()!!.getCount()
-        }
+        mNumOfViews = mViewPager?.getAdapter()?.getCount() ?: 0
         removeAllViews()
         for (i in 0..mNumOfViews - 1) {
             val b = Button(getContext() as Context)
-            setIndicatorBackground(b, i == mViewPager!!.getCurrentItem())
+            setIndicatorBackground(b, i == mViewPager?.getCurrentItem() ?: 0)
             val lp = LinearLayout.LayoutParams((mRadius * 2).toInt(), (mRadius * 2).toInt())
             if (getOrientation() == LinearLayout.HORIZONTAL) {
                 lp.leftMargin = (mDistance / 2).toInt()
@@ -152,10 +154,10 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
     private fun setIndicatorBackground(b: Button, isCurrent: Boolean) {
         val drawableDefault = ShapeDrawable()
         drawableDefault.setShape(OvalShape())
-        drawableDefault.getPaint()!!.setColor(if (isCurrent) mColorCurrentDefault else mColorNormalDefault)
+        drawableDefault.getPaint()?.setColor(if (isCurrent) mColorCurrentDefault else mColorNormalDefault)
         val drawablePressed = ShapeDrawable()
         drawablePressed.setShape(OvalShape())
-        drawablePressed.getPaint()!!.setColor(if (isCurrent) mColorCurrentPressed else mColorNormalPressed)
+        drawablePressed.getPaint()?.setColor(if (isCurrent) mColorCurrentPressed else mColorNormalPressed)
 
         val sld = StateListDrawable()
         var statesPressed = IntArray(1)
