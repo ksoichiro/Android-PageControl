@@ -40,7 +40,7 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
     private var mNumOfViews: Int
     private var mViewPager: ViewPager?
     private var mIndicatorSize: Float
-    private var mDistance: Float
+    private var mIndicatorDistance: Float
     private var mColorCurrentDefault: Int
     private var mColorCurrentPressed: Int
     private var mColorNormalDefault: Int
@@ -49,14 +49,14 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
 
     class object {
         private val DEFAULT_INDICATOR_SIZE = 4.0.toFloat()
-        private val DEFAULT_DISTANCE = 4.0.toFloat()
+        private val DEFAULT_INDICATOR_DISTANCE = 4.0.toFloat()
     }
 
     {
         mNumOfViews = 3
         mViewPager = null
         mIndicatorSize = 0.toFloat()
-        mDistance = 0.toFloat()
+        mIndicatorDistance = 0.toFloat()
         mColorCurrentDefault = 0
         mColorCurrentPressed = 0
         mColorNormalDefault = 0
@@ -80,12 +80,12 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
                 }
                 mIndicatorSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, indicatorSize, r.getDisplayMetrics())
 
-                val distanceDefault = DEFAULT_DISTANCE * r.getDisplayMetrics().density
-                var distance = a.getDimension(R.styleable.AndroidPageControl_apc_distance, distanceDefault)
-                if (distance <= 0) {
-                    distance = distanceDefault
+                val indicatorDistanceDefault = DEFAULT_INDICATOR_DISTANCE * r.getDisplayMetrics().density
+                var indicatorDistance = a.getDimension(R.styleable.AndroidPageControl_apc_indicatorDistance, indicatorDistanceDefault)
+                if (indicatorDistance <= 0) {
+                    indicatorDistance = indicatorDistanceDefault
                 }
-                mDistance = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, distance, r.getDisplayMetrics())
+                mIndicatorDistance = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, indicatorDistance, r.getDisplayMetrics())
 
                 mColorCurrentDefault = a.getColor(R.styleable.AndroidPageControl_apc_colorCurrentDefault, r.getColor(R.color.apc_indicator_current_default))
                 mColorCurrentPressed = a.getColor(R.styleable.AndroidPageControl_apc_colorCurrentPressed, r.getColor(R.color.apc_indicator_current_pressed))
@@ -136,11 +136,11 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
             setIndicatorBackground(b, i == mViewPager?.getCurrentItem() ?: 0)
             val lp = LinearLayout.LayoutParams(mIndicatorSize.toInt(), mIndicatorSize.toInt())
             if (getOrientation() == LinearLayout.HORIZONTAL) {
-                lp.leftMargin = (mDistance / 2).toInt()
-                lp.rightMargin = (mDistance / 2).toInt()
+                lp.leftMargin = (mIndicatorDistance / 2).toInt()
+                lp.rightMargin = (mIndicatorDistance / 2).toInt()
             } else {
-                lp.topMargin = (mDistance / 2).toInt()
-                lp.bottomMargin = (mDistance / 2).toInt()
+                lp.topMargin = (mIndicatorDistance / 2).toInt()
+                lp.bottomMargin = (mIndicatorDistance / 2).toInt()
             }
             b.setTag(i)
             b.setOnClickListener(this)

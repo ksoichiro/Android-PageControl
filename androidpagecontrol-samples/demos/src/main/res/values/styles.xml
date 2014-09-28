@@ -39,7 +39,7 @@
 
     <style name="AppPageControlStyle">
         <item name="apc_indicatorSize">@dimen/custom_apc_indicator_size</item>
-        <item name="apc_distance">@dimen/custom_apc_distance</item>
+        <item name="apc_indicatorDistance">@dimen/custom_apc_indicator_distance</item>
         <item name="apc_colorCurrentDefault">#1de9b6</item>
         <item name="apc_colorCurrentPressed">#a7ffeb</item>
         <item name="apc_colorNormalDefault">#009688</item>

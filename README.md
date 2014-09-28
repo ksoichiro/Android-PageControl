@@ -61,7 +61,7 @@ pageControl.setPosition(1);
 
     <style name="AppPageControlStyle">
         <item name="apc_indicatorSize">8dp</item>
-        <item name="apc_distance">8dp</item>
+        <item name="apc_indicatorDistance">8dp</item>
         <item name="apc_colorCurrentDefault">#1de9b6</item>
         <item name="apc_colorCurrentPressed">#a7ffeb</item>
         <item name="apc_colorNormalDefault">#009688</item>
