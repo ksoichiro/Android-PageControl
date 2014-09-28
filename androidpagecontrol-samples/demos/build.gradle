@@ -24,7 +24,7 @@ android {
 
     defaultConfig {
         versionCode 1
-        versionName "1.0.0"
+        versionName VERSION_NAME
         minSdkVersion 8
         targetSdkVersion 20
     }
