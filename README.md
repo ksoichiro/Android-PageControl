@@ -12,19 +12,13 @@ This widget handles taps just as `PageControl` does.
 
 ### build.gradle
 
+Available in the Maven Central Repository.  
+It depends on `support-v4` library.
+
 ```groovy
-apply plugin: 'com.android.application'
-
-repositories {
-    mavenCentral()
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots/"
-    }
-}
-
 dependencies {
     compile 'com.android.support:support-v4:20.0.0'
-    compile 'com.github.ksoichiro:androidpagecontrol:0.1.0-SNAPSHOT@aar'
+    compile 'com.github.ksoichiro:androidpagecontrol:0.1.0'
 }
 ```
 
