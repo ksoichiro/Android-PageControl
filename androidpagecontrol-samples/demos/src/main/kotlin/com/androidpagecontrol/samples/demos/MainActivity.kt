@@ -68,12 +68,7 @@ class MainActivity() : ListActivity() {
 
         for (i in 0..list.size() - 1) {
             val info = list.get(i)
-            val labelSeq = info.loadLabel(pm)
-            val label = if (labelSeq == null)
-                info.activityInfo!!.name
-            else
-                labelSeq.toString()
-
+            val label = info.loadLabel(pm)?.toString() ?: info.activityInfo!!.name
             val labelPath = label!!.split("/")
             val nextLabel = labelPath[0]
             if (labelPath.size == 1) {
