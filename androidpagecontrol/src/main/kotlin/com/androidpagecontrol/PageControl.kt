@@ -47,6 +47,7 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
     private var mColorNormalDefault: Int
     private var mColorNormalPressed: Int
     private var mIndicatorsClickable: Boolean
+    private var mIndicatorsEnabled: Boolean
 
     class object {
         private val DEFAULT_INDICATOR_SIZE = 4.0.toFloat()
@@ -64,6 +65,7 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
         mColorNormalDefault = 0
         mColorNormalPressed = 0
         mIndicatorsClickable = true
+        mIndicatorsEnabled = true
 
         // Horizontal layout by default
         if (getOrientation() != LinearLayout.VERTICAL) {
@@ -130,10 +132,17 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
         })
     }
 
-    public fun setIndicatorsClickable(indicatorsClickable: Boolean) {
+    public override fun setClickable(indicatorsClickable: Boolean) {
         mIndicatorsClickable = indicatorsClickable
         for (i in 0..getChildCount() - 1) {
             getChildAt(i)?.setClickable(indicatorsClickable)
+        }
+    }
+
+    public override fun setEnabled(indicatorsEnabled: Boolean) {
+        mIndicatorsEnabled = indicatorsEnabled
+        for (i in 0..getChildCount() - 1) {
+            getChildAt(i)?.setEnabled(indicatorsEnabled)
         }
     }
 
@@ -167,7 +176,8 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
             addView(b, lp)
         }
         // Set current clickable state to new children
-        setIndicatorsClickable(mIndicatorsClickable)
+        setClickable(mIndicatorsClickable)
+        setEnabled(mIndicatorsEnabled)
         requestLayout()
     }
 

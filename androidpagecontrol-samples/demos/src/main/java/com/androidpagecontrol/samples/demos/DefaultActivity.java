@@ -44,10 +44,10 @@ public class DefaultActivity extends Activity {
                 Button b = (Button) view;
                 if (b.getText().equals(getString(R.string.label_enable_click))) {
                     b.setText(R.string.label_disable_click);
-                    pageControl.setIndicatorsClickable(true);
+                    pageControl.setClickable(true);
                 } else {
                     b.setText(R.string.label_enable_click);
-                    pageControl.setIndicatorsClickable(false);
+                    pageControl.setClickable(false);
                 }
             }
         });
