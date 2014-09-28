@@ -2,6 +2,8 @@ package com.androidpagecontrol.samples.demos;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -27,9 +29,13 @@ public class SamplePagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         TextView view = new TextView(mContext);
-        view.setText("This is the " + (position + 1) + "th view.");
-
-        container.addView(view);
+        view.setText(String.valueOf(position + 1));
+        view.setGravity(Gravity.CENTER);
+        view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 72);
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        container.addView(view, lp);
         return view;
     }
 
