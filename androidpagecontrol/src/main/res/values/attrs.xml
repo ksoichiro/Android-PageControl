@@ -19,7 +19,7 @@
     <attr name="apcStyles" format="reference" />
 
     <declare-styleable name="AndroidPageControl">
-        <attr name="apc_radius" format="reference|dimension" />
+        <attr name="apc_indicatorSize" format="reference|dimension" />
         <attr name="apc_distance" format="reference|dimension" />
         <attr name="apc_colorCurrentDefault" format="reference|color" />
         <attr name="apc_colorCurrentPressed" format="reference|color" />

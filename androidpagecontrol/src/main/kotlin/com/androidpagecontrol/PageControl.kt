@@ -39,7 +39,7 @@ import android.content.res.TypedArray
 open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs, 0), View.OnClickListener {
     private var mNumOfViews: Int
     private var mViewPager: ViewPager?
-    private var mRadius: Float
+    private var mIndicatorSize: Float
     private var mDistance: Float
     private var mColorCurrentDefault: Int
     private var mColorCurrentPressed: Int
@@ -48,14 +48,14 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
     private var mIndicatorsClickable: Boolean
 
     class object {
-        private val DEFAULT_RADIUS = 2.0.toFloat()
+        private val DEFAULT_INDICATOR_SIZE = 4.0.toFloat()
         private val DEFAULT_DISTANCE = 4.0.toFloat()
     }
 
     {
         mNumOfViews = 3
         mViewPager = null
-        mRadius = 0.toFloat()
+        mIndicatorSize = 0.toFloat()
         mDistance = 0.toFloat()
         mColorCurrentDefault = 0
         mColorCurrentPressed = 0
@@ -73,12 +73,12 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
         if (r != null) {
             val a: TypedArray? = context.getTheme()?.obtainStyledAttributes(attrs, R.styleable.AndroidPageControl, R.attr.apcStyles, 0)
             if (a != null) {
-                val radiusDefault = DEFAULT_RADIUS * r.getDisplayMetrics().density
-                var radius = a.getDimension(R.styleable.AndroidPageControl_apc_radius, radiusDefault)
-                if (radius <= 0) {
-                    radius = radiusDefault
+                val indicatorSizeDefault = DEFAULT_INDICATOR_SIZE * r.getDisplayMetrics().density
+                var indicatorSize = a.getDimension(R.styleable.AndroidPageControl_apc_indicatorSize, indicatorSizeDefault)
+                if (indicatorSize <= 0) {
+                    indicatorSize = indicatorSizeDefault
                 }
-                mRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radius, r.getDisplayMetrics())
+                mIndicatorSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, indicatorSize, r.getDisplayMetrics())
 
                 val distanceDefault = DEFAULT_DISTANCE * r.getDisplayMetrics().density
                 var distance = a.getDimension(R.styleable.AndroidPageControl_apc_distance, distanceDefault)
@@ -134,7 +134,7 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
         for (i in 0..mNumOfViews - 1) {
             val b = Button(getContext() as Context)
             setIndicatorBackground(b, i == mViewPager?.getCurrentItem() ?: 0)
-            val lp = LinearLayout.LayoutParams((mRadius * 2).toInt(), (mRadius * 2).toInt())
+            val lp = LinearLayout.LayoutParams(mIndicatorSize.toInt(), mIndicatorSize.toInt())
             if (getOrientation() == LinearLayout.HORIZONTAL) {
                 lp.leftMargin = (mDistance / 2).toInt()
                 lp.rightMargin = (mDistance / 2).toInt()
