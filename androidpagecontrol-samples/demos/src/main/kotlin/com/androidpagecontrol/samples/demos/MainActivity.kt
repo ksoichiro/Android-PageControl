@@ -29,6 +29,7 @@ import android.content.Context
 import java.util.Comparator
 import java.util.HashMap
 import java.util.ArrayList
+import java.util.Collections
 
 /**
  * @author Soichiro Kashima
@@ -83,7 +84,8 @@ class MainActivity() : ListActivity() {
         // Android Studio(Kotlin plugin) says that this code has an error and it should implement
         //   override fun compare(o1: Map<String, Any>?, o2: Map<String, Any>?): Int
         // but it works. If I modify to code above, it results in a compile error :(
-        data.sortBy(object : Comparator<Map<String, Any>> {
+        // Note: data.sortBy(Comparator) and data.sort(Comparator) not work.
+        Collections.sort(data, object : Comparator<Map<String, Any>> {
             override fun compare(lhs: Map<String, Any>, rhs: Map<String, Any>): Int {
                 return Collator.getInstance()!!.compare(lhs.get("className") as String, rhs.get("className") as String)
             }
