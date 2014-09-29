@@ -59,6 +59,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".CustomShapeActivity"
+            android:label="@string/activity_title_custom_shape"
+            android:theme="@style/AppTheme.Rectangle">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.androidpagecontrol.samples.demos" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".AboutActivity"
             android:label="@string/activity_title_about" />
     </application>

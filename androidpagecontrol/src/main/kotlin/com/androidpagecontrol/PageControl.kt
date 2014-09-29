@@ -30,6 +30,8 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.content.res.Resources
 import android.content.res.TypedArray
+import android.graphics.drawable.shapes.Shape
+import android.graphics.drawable.shapes.RectShape
 
 /**
  * View which has circle-formed page indicator.
@@ -42,6 +44,7 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
     private var mIndicatorSize: Float
     private var mCurrentIndicatorSize: Float
     private var mIndicatorDistance: Float
+    private var mIndicatorShape: Int
     private var mColorCurrentDefault: Int
     private var mColorCurrentPressed: Int
     private var mColorNormalDefault: Int
@@ -52,6 +55,8 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
     class object {
         private val DEFAULT_INDICATOR_SIZE = 4.0.toFloat()
         private val DEFAULT_INDICATOR_DISTANCE = 4.0.toFloat()
+        private val INDICATOR_SHAPE_CIRCLE = 0
+        private val INDICATOR_SHAPE_RECTANGLE = 1
     }
 
     {
@@ -60,6 +65,7 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
         mIndicatorSize = 0.toFloat()
         mIndicatorDistance = 0.toFloat()
         mCurrentIndicatorSize = 0.toFloat()
+        mIndicatorShape = INDICATOR_SHAPE_CIRCLE
         mColorCurrentDefault = 0
         mColorCurrentPressed = 0
         mColorNormalDefault = 0
@@ -97,6 +103,11 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
                     currentIndicatorSize = currentIndicatorSizeDefault
                 }
                 mCurrentIndicatorSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, currentIndicatorSize, r.getDisplayMetrics())
+
+                mIndicatorShape = a.getInt(R.styleable.AndroidPageControl_apc_indicatorShape, INDICATOR_SHAPE_CIRCLE)
+                if (mIndicatorShape < INDICATOR_SHAPE_CIRCLE || INDICATOR_SHAPE_RECTANGLE < mIndicatorShape) {
+                    mIndicatorShape = INDICATOR_SHAPE_CIRCLE
+                }
 
                 mColorCurrentDefault = a.getColor(R.styleable.AndroidPageControl_apc_colorCurrentDefault, r.getColor(R.color.apc_indicator_current_default))
                 mColorCurrentPressed = a.getColor(R.styleable.AndroidPageControl_apc_colorCurrentPressed, r.getColor(R.color.apc_indicator_current_pressed))
@@ -183,10 +194,10 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
 
     private fun setIndicatorBackground(b: Button, isCurrent: Boolean) {
         val drawableDefault = ShapeDrawable()
-        drawableDefault.setShape(OvalShape())
+        drawableDefault.setShape(getIndicatorShape())
         drawableDefault.getPaint()?.setColor(if (isCurrent) mColorCurrentDefault else mColorNormalDefault)
         val drawablePressed = ShapeDrawable()
-        drawablePressed.setShape(OvalShape())
+        drawablePressed.setShape(getIndicatorShape())
         drawablePressed.getPaint()?.setColor(if (isCurrent) mColorCurrentPressed else mColorNormalPressed)
 
         val sld = StateListDrawable()
@@ -200,6 +211,13 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
             b.setBackgroundDrawable(sld)
         } else {
             b.setBackground(sld)
+        }
+    }
+
+    private fun getIndicatorShape(): Shape {
+        when (mIndicatorShape) {
+            INDICATOR_SHAPE_RECTANGLE -> return RectShape()
+            else -> return OvalShape()
         }
     }
 
