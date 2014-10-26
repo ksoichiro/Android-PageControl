@@ -1,6 +1,7 @@
 # Android-PageControl
 
 [![Build Status](https://travis-ci.org/ksoichiro/Android-PageControl.svg?branch=master)](https://travis-ci.org/ksoichiro/Android-PageControl)
+[![Maven Central](http://img.shields.io/maven-central/v/com.github.ksoichiro/androidpagecontrol.svg)](https://github.com/ksoichiro/Android-PageControl/releases/latest)
 
 ![](demo.gif)
 
