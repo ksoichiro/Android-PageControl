@@ -207,7 +207,7 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
         var statesDefault = IntArray(1)
         statesDefault.set(0, -android.R.attr.state_pressed)
         sld.addState(statesDefault, drawableDefault)
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+        if (Build.VERSION.SDK_INT < 16) {
             b.setBackgroundDrawable(sld)
         } else {
             b.setBackground(sld)
