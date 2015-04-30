@@ -19,7 +19,7 @@ It depends on `support-v4` library.
 ```groovy
 dependencies {
     compile 'com.android.support:support-v4:20.0.0'
-    compile 'com.github.ksoichiro:androidpagecontrol:0.1.0'
+    compile 'com.github.ksoichiro:androidpagecontrol:0.1.1'
 }
 ```
 
