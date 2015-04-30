@@ -48,7 +48,7 @@ class MainActivity() : ListActivity() {
 
     override fun onOptionsItemSelected(menu: MenuItem?): Boolean {
         if (menu!!.getItemId() == R.id.menu_about) {
-            startActivity(Intent(getApplicationContext() as Context, javaClass<AboutActivity>()))
+            startActivity(Intent(getApplicationContext(), javaClass<AboutActivity>()))
             return true
         }
         return false
@@ -72,7 +72,7 @@ class MainActivity() : ListActivity() {
             val label = info.loadLabel(pm)?.toString() ?: info.activityInfo!!.name
             val labelPath = label!!.split("/")
             val nextLabel = labelPath[0]
-            if (labelPath.size == 1) {
+            if (labelPath.size() == 1) {
                 addItem(data,
                         info.activityInfo!!.name!!.replace(info.activityInfo!!.packageName + ".", ""),
                         nextLabel,
@@ -87,7 +87,7 @@ class MainActivity() : ListActivity() {
         // Note: data.sortBy(Comparator) and data.sort(Comparator) not work.
         Collections.sort(data, object : Comparator<Map<String, Any>> {
             override fun compare(lhs: Map<String, Any>, rhs: Map<String, Any>): Int {
-                return Collator.getInstance()!!.compare(lhs.get("className") as String, rhs.get("className") as String)
+                return Collator.getInstance().compare(lhs.get("className") as String, rhs.get("className") as String)
             }
         })
 
