@@ -52,14 +52,14 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
     private var mIndicatorsClickable: Boolean
     private var mIndicatorsEnabled: Boolean
 
-    class object {
+    companion object {
         private val DEFAULT_INDICATOR_SIZE = 4.0.toFloat()
         private val DEFAULT_INDICATOR_DISTANCE = 4.0.toFloat()
         private val INDICATOR_SHAPE_CIRCLE = 0
         private val INDICATOR_SHAPE_RECTANGLE = 1
     }
 
-    {
+    init {
         mNumOfViews = 3
         mViewPager = null
         mIndicatorSize = 0.toFloat()
@@ -161,7 +161,7 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
         mNumOfViews = mViewPager?.getAdapter()?.getCount() ?: 0
         removeAllViews()
         for (i in 0..mNumOfViews - 1) {
-            val b = Button(getContext() as Context)
+            val b = Button(getContext())
             setIndicatorBackground(b, i == mViewPager?.getCurrentItem() ?: 0)
             var isCurrent: Boolean = (i == mViewPager?.getCurrentItem() ?: 0)
             val lp = if (isCurrent) {
@@ -225,9 +225,8 @@ open class PageControl(context: Context, attrs: AttributeSet) : LinearLayout(con
         if (view !is Button) {
             return
         }
-        val b = view as Button
-        if (b.getTag() is Int) {
-            val position = b.getTag() as Int
+        if (view.getTag() is Int) {
+            val position = view.getTag() as Int
             setPosition(position)
         }
     }
